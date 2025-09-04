@@ -45,8 +45,13 @@ function flipCard(e) {
       second.classList.add("matched");
       matchedCount += 1;
       if (matchedCount === icons.length) {
-        setTimeout(() => alert("🎉 You won!"), 300);
-      }
+  setTimeout(() => {
+    alert("🎉 You won!");
+    document.getElementById("game-container").style.display = "none";
+    document.getElementById("start-screen").style.display = "flex";
+  }, 300);
+}
+
     } else {
       setTimeout(() => {
         first.textContent = "";
@@ -60,4 +65,13 @@ function flipCard(e) {
 }
 
 resetBtn.addEventListener("click", createBoard);
-createBoard();
+
+function startGame() {
+  createBoard();
+}
+
+document.getElementById("start-btn").addEventListener("click", function() {
+    document.getElementById("start-screen").style.display = "none";
+    document.getElementById("game-container").style.display = "block";
+    startGame();
+});
