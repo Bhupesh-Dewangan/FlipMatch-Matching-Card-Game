@@ -14,6 +14,7 @@ body {
   flex-direction: column;
 }
 
+/* Start screen */
 #start-screen {
   display: flex;
   justify-content: center;
@@ -35,10 +36,36 @@ body {
   background-color: #45a049;
 }
 
+/* Game container */
+#game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Title */
+.game-title {
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 28px;
+}
+
+/* Stats row */
+.stats-row {
+  width: 420px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Board */
 #game-board {
   display: grid;
   grid-template-columns: repeat(4, 100px);
   gap: 10px;
+  margin-bottom: 20px;
 }
 
 .card {
@@ -60,22 +87,8 @@ body {
   cursor: default;
 }
 
-
-#game-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
+/* Restart button at bottom */
 #reset-btn {
-  margin-top: 10px;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
@@ -83,21 +96,4 @@ body {
   background: #e74c3c;
   color: white;
   border-radius: 5px;
-}
-
-h1 {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-#reset-btn {
-  margin: 20px 0; /* space above and below */
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border: none;
-  background: #e74c3c;
-  color: white;
-  border-radius: 5px;
-  display: block;   /* makes sure it's not inline */
 }
