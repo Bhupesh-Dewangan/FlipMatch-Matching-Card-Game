@@ -7,9 +7,19 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>FlipMatch</h1>
-  <div id="game-board"></div>
-  <button id="reset-btn">Reset Game</button>
+  <div id="start-screen">
+  <button id="start-btn">Play Game</button>
+</div>
+
+<!-- Wrap the whole game UI in this -->
+<div id="game-container" style="display:none;">
+  <div class="header">
+    <h1>FlipMatch</h1>
+    <div id="game-board"></div>
+    <button id="reset-btn">Restart</button>
+  </div>
+</div>
+
 
   <script src="script.js"></script>
 </body>
