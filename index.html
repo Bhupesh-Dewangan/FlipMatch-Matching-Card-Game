@@ -7,19 +7,28 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Start Screen -->
   <div id="start-screen">
-  <button id="start-btn">Play Game</button>
-</div>
+    <button id="start-btn">Play Game</button>
+  </div>
 
-<!-- Wrap the whole game UI in this -->
-<div id="game-container" style="display:none;">
-  <div class="header">
-    <h1>FlipMatch</h1>
+  <!-- Game Container -->
+  <div id="game-container" style="display:none;">
+    <!-- Header -->
+    <h1 class="game-title">FlipMatch</h1>
+
+    <!-- Stats row above the board -->
+    <div class="stats-row">
+      <span id="timer">Time: 00:00</span>
+      <span id="moves">Moves: 0</span>
+    </div>
+
+    <!-- Game Board -->
     <div id="game-board"></div>
+
+    <!-- Restart button at bottom -->
     <button id="reset-btn">Restart</button>
   </div>
-</div>
-
 
   <script src="script.js"></script>
 </body>
