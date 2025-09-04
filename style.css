@@ -14,8 +14,25 @@ body {
   flex-direction: column;
 }
 
-h1 {
-  margin-bottom: 20px;
+#start-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#start-btn {
+  padding: 15px 30px;
+  font-size: 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+}
+
+#start-btn:hover {
+  background-color: #45a049;
 }
 
 #game-board {
@@ -43,8 +60,22 @@ h1 {
   cursor: default;
 }
 
+
+#game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 #reset-btn {
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
@@ -52,4 +83,21 @@ h1 {
   background: #e74c3c;
   color: white;
   border-radius: 5px;
+}
+
+h1 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#reset-btn {
+  margin: 20px 0; /* space above and below */
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background: #e74c3c;
+  color: white;
+  border-radius: 5px;
+  display: block;   /* makes sure it's not inline */
 }
