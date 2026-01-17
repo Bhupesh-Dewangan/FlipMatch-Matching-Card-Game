@@ -1,35 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlipMatch - Matching Card Game</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <!-- Start Screen -->
-  <div id="start-screen">
-    <button id="start-btn">Play Game</button>
-  </div>
-
-  <!-- Game Container -->
-  <div id="game-container" style="display:none;">
-    <!-- Header -->
-    <h1 class="game-title">FlipMatch</h1>
-
-    <!-- Stats row above the board -->
-    <div class="stats-row">
-      <span id="timer">Time: 00:00</span>
-      <span id="moves">Moves: 0</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlipMatch - Matching Card Game</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Start Screen -->
+    <div id="start-screen">
+      <button id="start-btn">Play Game</button>
     </div>
 
-    <!-- Game Board -->
-    <div id="game-board"></div>
+    <!-- Game Container -->
+    <div id="game-container" style="display: none">
+      <!-- Header -->
+      <h1 class="game-title">FlipMatch</h1>
 
-    <!-- Restart button at bottom -->
-    <button id="reset-btn">Restart</button>
-  </div>
+      <!-- Stats row above the board -->
+      <div class="stats-row">
+        <span id="timer">Time: 00:00</span>
+        <span id="moves">Moves: 0</span>
+      </div>
 
-  <script src="script.js"></script>
-</body>
+      <!-- Game Board -->
+      <div id="game-board"></div>
+
+      <!-- Restart button at bottom -->
+      <button id="reset-btn">Restart</button>
+      <button id="pause-btn">Pause</button>
+    </div>
+
+    <!-- Win Modal -->
+    <div id="win-modal" class="modal hidden">
+      <div class="modal-content">
+        <h2>🎉 You Won!</h2>
+        <p id="final-time"></p>
+        <p id="final-moves"></p>
+        <p id="best-score"></p>
+
+        <button id="play-again-btn">Play Again</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
 </html>
