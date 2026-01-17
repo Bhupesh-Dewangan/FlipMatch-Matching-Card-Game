@@ -245,3 +245,32 @@ body {
 #exit-btn:hover {
   background: #2c3e50;
 }
+
+.themes {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.themes p {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.theme-btn {
+  margin: 5px;
+  padding: 10px 18px;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #34495e;
+  color: white;
+}
+
+.theme-btn:hover {
+  background: #2c3e50;
+}
+
+.theme-btn.active {
+  background: #4caf50;
+}
