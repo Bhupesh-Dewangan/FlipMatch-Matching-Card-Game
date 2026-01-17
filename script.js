@@ -16,6 +16,131 @@ const playAgainBtn = document.getElementById("play-again-btn");
 
 const diffButtons = document.querySelectorAll(".diff-btn");
 
+const themes = {
+  fruits: [
+    "🍎",
+    "🍌",
+    "🍓",
+    "🍇",
+    "🍉",
+    "🍒",
+    "🥝",
+    "🍍",
+    "🥑",
+    "🍑",
+    "🍋",
+    "🍊",
+    "🍐",
+    "🍈",
+    "🥭",
+    "🍏",
+    "🍅",
+    "🍆",
+    "🥕",
+    "🌽",
+    "🥔",
+    "🥥",
+    "🥬",
+    "🌶",
+    "🫐",
+    "🍠",
+    "🫛",
+    "🫑",
+  ],
+  emojis: [
+    "😀",
+    "😂",
+    "😍",
+    "😎",
+    "😡",
+    "😭",
+    "🤔",
+    "🥳",
+    "😴",
+    "🤯",
+    "🤩",
+    "😇",
+    "😱",
+    "😏",
+    "😤",
+    "🤪",
+    "😜",
+    "🤐",
+    "🤫",
+    "🥺",
+    "🤢",
+    "🤮",
+    "🤧",
+    "🥶",
+    "🥵",
+    "😵",
+    "😶",
+    "😳",
+  ],
+  animals: [
+    "🐶",
+    "🐱",
+    "🐭",
+    "🐹",
+    "🐰",
+    "🦊",
+    "🐻",
+    "🐼",
+    "🐨",
+    "🐯",
+    "🦁",
+    "🐮",
+    "🐷",
+    "🐸",
+    "🐵",
+    "🐔",
+    "🐧",
+    "🐦",
+    "🐤",
+    "🐣",
+    "🦆",
+    "🦅",
+    "🦉",
+    "🦇",
+    "🐺",
+    "🦄",
+    "🐴",
+    "🐗",
+  ],
+  numbers: [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",
+    "21",
+    "22",
+    "23",
+    "24",
+    "25",
+    "26",
+    "27",
+    "28",
+  ],
+};
+
+let currentTheme = "fruits"; // default
+
 const iconPool = [
   "🍎",
   "🍌",
@@ -104,7 +229,8 @@ function createBoard() {
 
   const { grid, pairs } = difficultyConfig[difficulty];
 
-  const selectedIcons = iconPool.slice(0, pairs);
+  const pool = themes[currentTheme];
+  const selectedIcons = pool.slice(0, pairs);
   cards = [...selectedIcons, ...selectedIcons];
   shuffle(cards);
 
@@ -141,7 +267,6 @@ function createBoard() {
     startCountdown(3); // 3-second countdown
   }, 2000);
 }
-
 
 function formatTime(sec) {
   const min = String(Math.floor(sec / 60)).padStart(2, "0");
@@ -205,7 +330,6 @@ function startCountdown(seconds) {
   }, 1000);
 }
 
-
 // Flip card
 function flipCard(e) {
   if (isPaused) return;
@@ -254,7 +378,12 @@ function applyResponsiveLayout(grid) {
   // Keep board within safe bounds
   const maxBoardWidth = Math.min(containerWidth - 20, 600);
 
-  const cardSize = Math.floor((maxBoardWidth - gap * (grid - 1)) / grid);
+  let cardSize = Math.floor((maxBoardWidth - gap * (grid - 1)) / grid);
+
+  // Increase card size slightly in hard mode
+  if (difficulty === "hard") {
+    cardSize = Math.floor(cardSize * 1.4); // increase by 40%
+  }
 
   board.style.gridTemplateColumns = `repeat(${grid}, ${cardSize}px)`;
   board.style.gap = gap + "px";
@@ -315,3 +444,16 @@ exitBtn.addEventListener("click", () => {
   // Reset stats so a new game starts fresh
   resetStats();
 });
+
+const themeButtons = document.querySelectorAll(".theme-btn");
+
+themeButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    themeButtons.forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentTheme = btn.dataset.theme;
+  });
+});
+
+// Default active theme
+document.querySelector('[data-theme="fruits"]').classList.add("active");
