@@ -6,6 +6,13 @@ const startScreen = document.getElementById("start-screen");
 
 const timerDisplay = document.getElementById("timer");
 const movesDisplay = document.getElementById("moves");
+const pauseBtn = document.getElementById("pause-btn");
+
+const winModal = document.getElementById("win-modal");
+const finalTime = document.getElementById("final-time");
+const finalMoves = document.getElementById("final-moves");
+const bestScoreText = document.getElementById("best-score");
+const playAgainBtn = document.getElementById("play-again-btn");
 
 const icons = ["🍎", "🍌", "🍓", "🍇", "🍉", "🍒", "🥝", "🍍"];
 let cards = [];
@@ -15,6 +22,7 @@ let moves = 0;
 
 let timer;
 let seconds = 0;
+let isPaused = false;
 
 // Shuffle
 function shuffle(array) {
@@ -27,19 +35,22 @@ function shuffle(array) {
 // Timer
 function startTimer() {
   clearInterval(timer);
-  seconds = 0;
-  timerDisplay.textContent = "Time: 00:00";
   timer = setInterval(() => {
-    seconds++;
-    let min = String(Math.floor(seconds / 60)).padStart(2, "0");
-    let sec = String(seconds % 60).padStart(2, "0");
-    timerDisplay.textContent = `Time: ${min}:${sec}`;
+    if (!isPaused) {
+      seconds++;
+      let min = String(Math.floor(seconds / 60)).padStart(2, "0");
+      let sec = String(seconds % 60).padStart(2, "0");
+      timerDisplay.textContent = `Time: ${min}:${sec}`;
+    }
   }, 1000);
 }
 
 // Reset stats
 function resetStats() {
   moves = 0;
+  seconds = 0;
+  isPaused = false;
+  pauseBtn.textContent = "Pause";
   movesDisplay.textContent = "Moves: 0";
   startTimer();
 }
@@ -65,10 +76,41 @@ function createBoard() {
   });
 }
 
+function formatTime(sec) {
+  const min = String(Math.floor(sec / 60)).padStart(2, "0");
+  const s = String(sec % 60).padStart(2, "0");
+  return `${min}:${s}`;
+}
+
+function showWinModal() {
+  clearInterval(timer);
+
+  finalTime.textContent = `⏱ Time: ${formatTime(seconds)}`;
+  finalMoves.textContent = `🔁 Moves: ${moves}`;
+
+  // Best score logic (lower moves = better)
+  const best = localStorage.getItem("flipmatch_best");
+
+  if (!best || moves < Number(best)) {
+    localStorage.setItem("flipmatch_best", moves);
+    bestScoreText.textContent = "🏆 Best Score: " + moves + " (New!)";
+  } else {
+    bestScoreText.textContent = "🏆 Best Score: " + best;
+  }
+
+  winModal.classList.remove("hidden");
+}
+
 // Flip card
 function flipCard(e) {
+  if (isPaused) return;
   const card = e.currentTarget;
-  if (card.classList.contains("flipped") || card.classList.contains("matched") || flipped.length === 2) return;
+  if (
+    card.classList.contains("flipped") ||
+    card.classList.contains("matched") ||
+    flipped.length === 2
+  )
+    return;
 
   card.textContent = card.dataset.icon;
   card.classList.add("flipped");
@@ -86,7 +128,9 @@ function flipCard(e) {
       if (matchedCount === icons.length) {
         setTimeout(() => {
           clearInterval(timer);
-          alert(`🎉 You won!\nTime: ${timerDisplay.textContent.split(" ")[1]} | Moves: ${moves}`);
+          alert(
+            `🎉 You won!\nTime: ${timerDisplay.textContent.split(" ")[1]} | Moves: ${moves}`,
+          );
           gameContainer.style.display = "none";
           startScreen.style.display = "flex";
         }, 300);
@@ -107,8 +151,18 @@ function flipCard(e) {
 resetBtn.addEventListener("click", createBoard);
 
 // Start
-startBtn.addEventListener("click", function() {
+startBtn.addEventListener("click", function () {
   startScreen.style.display = "none";
   gameContainer.style.display = "flex";
   createBoard();
+});
+
+pauseBtn.addEventListener("click", function () {
+  isPaused = !isPaused;
+
+  if (isPaused) {
+    pauseBtn.textContent = "Resume";
+  } else {
+    pauseBtn.textContent = "Pause";
+  }
 });
