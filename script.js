@@ -199,20 +199,17 @@ function applyResponsiveLayout(grid) {
   // Keep board within safe bounds
   const maxBoardWidth = Math.min(containerWidth - 20, 600);
 
-  const cardSize = Math.floor(
-    (maxBoardWidth - gap * (grid - 1)) / grid
-  );
+  const cardSize = Math.floor((maxBoardWidth - gap * (grid - 1)) / grid);
 
   board.style.gridTemplateColumns = `repeat(${grid}, ${cardSize}px)`;
   board.style.gap = gap + "px";
 
-  document.querySelectorAll(".card").forEach(card => {
+  document.querySelectorAll(".card").forEach((card) => {
     card.style.width = cardSize + "px";
     card.style.height = cardSize + "px";
     card.style.fontSize = cardSize * 0.35 + "px";
   });
 }
-
 
 // Restart
 resetBtn.addEventListener("click", createBoard);
@@ -250,3 +247,16 @@ window.addEventListener("resize", () => {
   }
 });
 
+const exitBtn = document.getElementById("exit-btn");
+
+exitBtn.addEventListener("click", () => {
+  // Hide game container and win modal
+  gameContainer.style.display = "none";
+  winModal.classList.add("hidden");
+
+  // Show start screen
+  startScreen.style.display = "flex";
+
+  // Reset stats so a new game starts fresh
+  resetStats();
+});
