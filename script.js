@@ -118,13 +118,30 @@ function createBoard() {
     card.classList.add("card");
     card.dataset.icon = icon;
     card.dataset.index = index;
-    card.textContent = "";
-    card.addEventListener("click", flipCard);
+    card.textContent = icon; // show icon for preview
     board.appendChild(card);
   });
 
   applyResponsiveLayout(grid);
+
+  // Disable clicking during preview
+  board.querySelectorAll(".card").forEach((card) => {
+    card.removeEventListener("click", flipCard); // remove old just in case
+  });
+
+  // Preview duration (2 seconds)
+  setTimeout(() => {
+    // Hide all cards
+    board.querySelectorAll(".card").forEach((card) => {
+      card.textContent = "";
+      card.addEventListener("click", flipCard); // enable flipping
+    });
+
+    // Start countdown before enabling clicks
+    startCountdown(3); // 3-second countdown
+  }, 2000);
 }
+
 
 function formatTime(sec) {
   const min = String(Math.floor(sec / 60)).padStart(2, "0");
@@ -150,6 +167,44 @@ function showWinModal() {
 
   winModal.classList.remove("hidden");
 }
+
+function startCountdown(seconds) {
+  let countdown = seconds;
+
+  // Create overlay element
+  const overlay = document.createElement("div");
+  overlay.style.position = "absolute";
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = "100%";
+  overlay.style.height = "100%";
+  overlay.style.background = "rgba(0,0,0,0.5)";
+  overlay.style.display = "flex";
+  overlay.style.justifyContent = "center";
+  overlay.style.alignItems = "center";
+  overlay.style.fontSize = "4rem";
+  overlay.style.color = "white";
+  overlay.style.zIndex = 10;
+  overlay.style.borderRadius = "12px";
+  board.appendChild(overlay);
+
+  overlay.textContent = countdown;
+
+  const interval = setInterval(() => {
+    countdown--;
+    if (countdown > 0) {
+      overlay.textContent = countdown;
+    } else {
+      overlay.textContent = "GO!";
+      setTimeout(() => {
+        overlay.remove();
+        startTimer(); // Start the timer when countdown ends
+      }, 500);
+      clearInterval(interval);
+    }
+  }, 1000);
+}
+
 
 // Flip card
 function flipCard(e) {
