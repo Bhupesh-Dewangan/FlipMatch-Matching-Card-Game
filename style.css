@@ -94,7 +94,7 @@ body {
 
 /* Restart button at bottom */
 #reset-btn {
-  padding: 10px 20px;
+  padding: 15px;
   font-size: 16px;
   cursor: pointer;
   border: none;
@@ -104,7 +104,7 @@ body {
 }
 
 #pause-btn {
-  padding: 10px 24px;
+  padding: 15px;
   font-size: 16px;
   cursor: pointer;
   border: none;
@@ -203,3 +203,49 @@ body {
   max-height: 100vh;
   overflow: auto;
 }
+
+.buttons-row {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  /* margin-bottom: 20px; */
+}
+
+.buttons-row button {
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+}
+
+#pause-btn {
+  background: #f39c12;
+  height: full;
+  margin-top: 0;
+  width: 6rem;
+}
+
+#pause-btn:hover {
+  background: #e67e22;
+}
+
+#reset-btn {
+  background: #e74c3c;
+  width: 6rem;
+}
+
+#reset-btn:hover {
+  background: #c0392b;
+}
+
+#exit-btn {
+  background: #34495e;
+  width: 6rem;
+}
+
+#exit-btn:hover {
+  background: #2c3e50;
+}
+
