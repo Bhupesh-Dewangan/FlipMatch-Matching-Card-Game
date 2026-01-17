@@ -14,7 +14,43 @@ const finalMoves = document.getElementById("final-moves");
 const bestScoreText = document.getElementById("best-score");
 const playAgainBtn = document.getElementById("play-again-btn");
 
-const icons = ["🍎", "🍌", "🍓", "🍇", "🍉", "🍒", "🥝", "🍍"];
+const diffButtons = document.querySelectorAll(".diff-btn");
+
+const iconPool = [
+  "🍎",
+  "🍌",
+  "🍓",
+  "🍇",
+  "🍉",
+  "🍒",
+  "🥝",
+  "🍍",
+  "🥑",
+  "🍑",
+  "🍋",
+  "🍊",
+  "🍐",
+  "🍈",
+  "🍎",
+  "🍌",
+  "🍓",
+  "🍇",
+  "🍉",
+  "🍒",
+  "🥝",
+  "🍍",
+  "🥑",
+  "🍑",
+  "🍋",
+  "🍊",
+  "🍐",
+  "🍈",
+  "🍎",
+  "🍌",
+  "🍓",
+  "🍇",
+];
+
 let cards = [];
 let flipped = [];
 let matchedCount = 0;
@@ -23,6 +59,13 @@ let moves = 0;
 let timer;
 let seconds = 0;
 let isPaused = false;
+let difficulty = "easy";
+
+const difficultyConfig = {
+  easy: { grid: 4, pairs: 8 },
+  medium: { grid: 6, pairs: 18 },
+  hard: { grid: 8, pairs: 32 },
+};
 
 // Shuffle
 function shuffle(array) {
@@ -58,8 +101,13 @@ function resetStats() {
 // Create board
 function createBoard() {
   board.innerHTML = "";
-  cards = [...icons, ...icons];
+
+  const { grid, pairs } = difficultyConfig[difficulty];
+
+  const selectedIcons = iconPool.slice(0, pairs);
+  cards = [...selectedIcons, ...selectedIcons];
   shuffle(cards);
+
   matchedCount = 0;
   flipped = [];
 
@@ -74,6 +122,8 @@ function createBoard() {
     card.addEventListener("click", flipCard);
     board.appendChild(card);
   });
+
+  applyResponsiveLayout(grid);
 }
 
 function formatTime(sec) {
@@ -125,15 +175,8 @@ function flipCard(e) {
       first.classList.add("matched");
       second.classList.add("matched");
       matchedCount += 1;
-      if (matchedCount === icons.length) {
-        setTimeout(() => {
-          clearInterval(timer);
-          alert(
-            `🎉 You won!\nTime: ${timerDisplay.textContent.split(" ")[1]} | Moves: ${moves}`,
-          );
-          gameContainer.style.display = "none";
-          startScreen.style.display = "flex";
-        }, 300);
+      if (matchedCount === difficultyConfig[difficulty].pairs) {
+        setTimeout(showWinModal, 300);
       }
     } else {
       setTimeout(() => {
@@ -147,8 +190,42 @@ function flipCard(e) {
   }
 }
 
+function applyResponsiveLayout(grid) {
+  const gap = 8;
+
+  // Measure available width from container
+  const containerWidth = gameContainer.clientWidth;
+
+  // Keep board within safe bounds
+  const maxBoardWidth = Math.min(containerWidth - 20, 600);
+
+  const cardSize = Math.floor(
+    (maxBoardWidth - gap * (grid - 1)) / grid
+  );
+
+  board.style.gridTemplateColumns = `repeat(${grid}, ${cardSize}px)`;
+  board.style.gap = gap + "px";
+
+  document.querySelectorAll(".card").forEach(card => {
+    card.style.width = cardSize + "px";
+    card.style.height = cardSize + "px";
+    card.style.fontSize = cardSize * 0.35 + "px";
+  });
+}
+
+
 // Restart
 resetBtn.addEventListener("click", createBoard);
+
+diffButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    diffButtons.forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    difficulty = btn.dataset.level;
+  });
+});
+
+document.querySelector('[data-level="easy"]').classList.add("active");
 
 // Start
 startBtn.addEventListener("click", function () {
@@ -166,3 +243,10 @@ pauseBtn.addEventListener("click", function () {
     pauseBtn.textContent = "Pause";
   }
 });
+
+window.addEventListener("resize", () => {
+  if (gameContainer.style.display === "flex") {
+    applyResponsiveLayout(difficultyConfig[difficulty].grid);
+  }
+});
+
